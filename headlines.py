@@ -23,7 +23,7 @@ defults = {'publication': 'bbc',
 weather_url = "http://api.openweathermap.org/data/2.5/weather?q={}&units=metric\
 &appid=fd7c5a65c0f0108722f0f8695283cb79"
 
-currency_url = "https://openexchangerates.org/api/latest.json?\
+currency_url = "http://openexchangerates.org/api/latest.json?\
 app_id=ddda11bbb3fe467e86d17096aa03d4fd"
 
 
@@ -117,15 +117,6 @@ def get_rates(frm, to):
     frm: the currency to change from eg. 'USD'
     to: the currency to change for eg. 'GBP'
     """
-    # this is a helper code to fix the
-    # SSL CERTIFICATE_VERIFY_FAILED on lOCALHOST
-    # and will be removed in the deployment
-    # import os
-    # import ssl
-    # if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
-    #        getattr(ssl, '_create_unverified_context', None)):
-    #    ssl._create_default_https_context = ssl._create_unverified_context
-    # end of the helper code
     all_currency = urllib2.urlopen(currency_url).read()
     parsed = json.loads(all_currency).get('rates')
     frm_rate = parsed.get(frm.upper())
