@@ -80,10 +80,10 @@ def get_weather(query):
 
 
 def get_rates(frm, to):
-    import os, ssl
-    if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
-        getattr(ssl, '_create_unverified_context', None)): 
-            ssl._create_default_https_context = ssl._create_unverified_context
+    #import os, ssl
+    #if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
+    #   getattr(ssl, '_create_unverified_context', None)): 
+    #       ssl._create_default_https_context = ssl._create_unverified_context
     all_currency = urllib2.urlopen(currency_url).read()
     parsed = json.loads(all_currency).get('rates')
     frm_rate = parsed.get(frm.upper())
