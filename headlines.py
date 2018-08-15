@@ -29,8 +29,10 @@ app_id=ddda11bbb3fe467e86d17096aa03d4fd"
 
 @app.route('/')
 def home():
-    """get customized headlines and weather and currency
-    based on user input or defults"""
+    """
+    get customized headlines and weather and currency
+    based on user input or defults
+    """
     # get headlines
     publication = get_value_with_fallback('publication')
     articles = get_news(publication)
@@ -64,7 +66,10 @@ def home():
 
 
 def get_value_with_fallback(key):
-    """docstring"""
+    """
+    get the user data from cookies if not given an explicit
+    input by the user if no input and no cookies revert to the defult value
+    """
     if request.args.get(key):
         return request.args.get(key)
     if request.cookies.get(key):
@@ -73,7 +78,9 @@ def get_value_with_fallback(key):
 
 
 def get_news(query):
-    """parse and display news feed from the publication"""
+    """
+    parse and display news feed from a specified publication
+    """
     if not query or query.lower() not in rss_feeds:
         publication = defults['publication']
     else:
@@ -83,7 +90,11 @@ def get_news(query):
 
 
 def get_weather(query):
-    """Get the weather data from openweathermap.org"""
+    """
+    Get the weather data from openweathermap.org
+    for a specific city or country
+    query: the city or country to get the data for
+    """
     query = urllib.quote(query)
     url = weather_url.format(query)
     data = urllib2.urlopen(url).read()
@@ -100,14 +111,20 @@ def get_weather(query):
 
 
 def get_rates(frm, to):
+    """
+    retrieve the latest currency exchange rate json file from
+    openexchangerates.org using its API
+    frm: the currency to change from eg. 'USD'
+    to: the currency to change for eg. 'GBP'
+    """
     # this is a helper code to fix the
     # SSL CERTIFICATE_VERIFY_FAILED on lOCALHOST
     # and will be removed in the deployment
-    import os
-    import ssl
-    if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
-            getattr(ssl, '_create_unverified_context', None)):
-        ssl._create_default_https_context = ssl._create_unverified_context
+    # import os
+    # import ssl
+    # if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
+    #        getattr(ssl, '_create_unverified_context', None)):
+    #    ssl._create_default_https_context = ssl._create_unverified_context
     # end of the helper code
     all_currency = urllib2.urlopen(currency_url).read()
     parsed = json.loads(all_currency).get('rates')
