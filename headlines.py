@@ -1,8 +1,10 @@
+import datetime
 import feedparser
 import json
 import urllib
 import urllib2
 from flask import Flask
+from flask import make_response
 from flask import render_template
 from flask import request
 
@@ -49,7 +51,9 @@ def home():
     return render_template('home.html', articles=articles,
                            weather=weather, currency_from=currency_from,
                            currency_to=currency_to, rate=rate,
-                           currencies=sorted(currencies))
+                           currencies=sorted(currencies),
+                           feeds=rss_feeds.keys(),
+                           publication=publication)
 
 
 def get_news(query):
@@ -80,10 +84,14 @@ def get_weather(query):
 
 
 def get_rates(frm, to):
-    #import os, ssl
-    #if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
-    #   getattr(ssl, '_create_unverified_context', None)): 
-    #       ssl._create_default_https_context = ssl._create_unverified_context
+    # this is a helper code to fix the
+    # SSL CERTIFICATE_VERIFY_FAILED on lOCALHOST
+    # and will be removed in the deployment
+    import os, ssl
+    if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
+       getattr(ssl, '_create_unverified_context', None)):
+            ssl._create_default_https_context = ssl._create_unverified_context
+    # end of the helper code
     all_currency = urllib2.urlopen(currency_url).read()
     parsed = json.loads(all_currency).get('rates')
     frm_rate = parsed.get(frm.upper())

@@ -15,14 +15,14 @@
         <h2>Currency</h2>
         {{currency_from}} = {{currency_to}} {{rate}}
         <form>
-            from: <select name="currency_from">
+            From: <select name="currency_from">
                 {% for currency in currencies %}
                     <option value="{{currency}}" 
                     {{'selected="selected"' if currency_from == currency}}>
                     {{currency}}</option>
                 {% endfor %}
             </select>
-            to: <select name="currency_to">
+            To: <select name="currency_to">
                 {% for currency in currencies %}
                 <option value="{{currency}}" 
                 {{'selected="selected"' if currency_to == currency}}>
@@ -33,7 +33,13 @@
         </form>
         <h2>Headlines</h2>
         <form>
-            <input type="text" name="publication" placeholder="search" />
+            Publication: <select name="publication">
+                {% for feed in feeds %}
+                    <option value="{{feed}}"
+                    {{'selected="selected"' if publication == feed}}>
+                    {{feed.upper()}}</option>
+                {% endfor %}
+            </select>
             <input type="submit" value="Submit" />
         </form>
         {% for article in articles %}
