@@ -12,7 +12,7 @@ rss_feed = {'bbc': 'http://feeds.bbci.co.uk/news/rss.xml',
 @APP.route('/')
 @APP.route('/<publication>')
 def get_news(publication='bbc'):
-    """docstring"""
+    '''"""docstring"""
     feed = feedparser.parse(rss_feed[publication])
     first_article = feed['entries'][0]
     return(
@@ -28,7 +28,8 @@ def get_news(publication='bbc'):
                        first_article.get('published'),
                        first_article.get('summary')
                        )
-        )
+        )'''
+    return 'no news'
 
 if __name__ == '__main__':
     APP.run(port=5000, debug=True)
