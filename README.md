@@ -1,2 +1,2 @@
-## Headines
-My first **FLASK** app from "_Flask By Example_" by *_Gareth Dwyer_*
+## Headlines
+My first Flask app from ***Flask By Example*** by ***Gareth Dwyer***
